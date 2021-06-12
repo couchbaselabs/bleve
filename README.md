@@ -36,6 +36,7 @@ Discuss usage and development of bleve in the [google group](https://groups.goog
 ## Indexing
 
 ```go
+indexName := "example.bleve"
 message := struct{
 	Id   string
 	From string
@@ -47,9 +48,12 @@ message := struct{
 }
 
 mapping := bleve.NewIndexMapping()
-index, err := bleve.New("example.bleve", mapping)
-if err != nil {
-	panic(err)
+index, err := bleve.New(indexName, mapping)
+if err == bleve.ErrorIndexPathExists {
+    index, err = bleve.Open(indexName)
+    if err != nil {
+        panic(err)
+    }
 }
 index.Index(message.Id, message)
 ```
