@@ -33,7 +33,7 @@ func init() {
 type TermSearcher struct {
 	indexReader index.IndexReader
 	reader      index.TermFieldReader
-	scorer      *scorer.TermQueryScorer
+	scorer      scorer.TermQueryScorer
 	tfd         index.TermFieldDoc
 }
 
@@ -138,4 +138,8 @@ func (s *TermSearcher) Optimize(kind string, octx index.OptimizableContext) (
 	}
 
 	return nil, nil
+}
+
+func (s *TermSearcher) SetScorer(scorer scorer.TermQueryScorer) {
+	s.scorer = scorer
 }

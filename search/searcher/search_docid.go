@@ -33,7 +33,7 @@ func init() {
 // DocIDSearcher returns documents matching a predefined set of identifiers.
 type DocIDSearcher struct {
 	reader index.DocIDReader
-	scorer *scorer.ConstantScorer
+	scorer scorer.ConstantScorer
 	count  int
 }
 
@@ -106,4 +106,8 @@ func (s *DocIDSearcher) Min() int {
 
 func (s *DocIDSearcher) DocumentMatchPoolSize() int {
 	return 1
+}
+
+func (s *DocIDSearcher) SetScorer(scorer scorer.ConstantScorer) {
+	s.scorer = scorer
 }

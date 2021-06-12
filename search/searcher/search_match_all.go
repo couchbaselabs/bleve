@@ -33,7 +33,7 @@ func init() {
 type MatchAllSearcher struct {
 	indexReader index.IndexReader
 	reader      index.DocIDReader
-	scorer      *scorer.ConstantScorer
+	scorer      scorer.ConstantScorer
 	count       uint64
 }
 
@@ -118,4 +118,8 @@ func (s *MatchAllSearcher) Min() int {
 
 func (s *MatchAllSearcher) DocumentMatchPoolSize() int {
 	return 1
+}
+
+func (s *MatchAllSearcher) SetScorer(scorer scorer.ConstantScorer) {
+	s.scorer = scorer
 }
