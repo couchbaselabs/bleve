@@ -342,6 +342,7 @@ func (s *Scorch) planMergeAtSnapshot(ctx context.Context,
 			if err != nil {
 				s.unmarkIneligibleForRemoval(filename)
 				atomic.AddUint64(&s.stats.TotFileMergePlanTasksErr, 1)
+				_ = os.Remove(path) // cleanup failed merge
 				return err
 			}
 			oldNewDocNums = make(map[uint64][]uint64)
@@ -453,6 +454,7 @@ func (s *Scorch) mergeSegmentBases(snapshot *IndexSnapshot,
 	seg, err := s.segPlugin.Open(path)
 	if err != nil {
 		atomic.AddUint64(&s.stats.TotMemMergeErr, 1)
+		_ = os.Remove(path) // cleanup failed merge
 		return nil, 0, err
 	}
 
